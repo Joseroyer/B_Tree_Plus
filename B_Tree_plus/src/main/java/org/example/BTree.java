@@ -6,7 +6,7 @@ public class BTree {
     public void inserir(int info, int posArq) {
         No folha, pai;
         int pos;
-        if (raiz == null) { 
+        if (raiz == null) {
             raiz = new No(info, posArq);
         } else {
             folha = navegarAteFolha(info);
@@ -26,7 +26,7 @@ public class BTree {
     }
 
     public void split(No folha, No pai) {
-        //verifica se split é da folha ou do no
+        //verifica se split é da folha ou do nó
         No cx1 = new No();
         No cx2 = new No();
         int pos;
@@ -56,7 +56,7 @@ public class BTree {
 
         }
 
-        //Ligar as folhas
+        //Ligar as folhas com Cx1 e Cx2
         if (folha == pai) {
             folha.setvInfo(0, folha.getvInfo(valorCalc));
             folha.setvPos(0, folha.getvPos(valorCalc));
@@ -71,7 +71,7 @@ public class BTree {
             pai.setvInfo(pos, folha.getvInfo(valorCalc));
             pai.setvPos(pos, folha.getvPos(valorCalc));
 
-            //apontamentos para nova caixa
+            //apontamento para novas caixas
             pai.setvLig(pos, cx1);
             pai.setvLig(pos + 1, cx2);
             pai.setTl(pai.getTl() + 1);

@@ -10,8 +10,8 @@ public class Main {
         bt.inserir(4, 4);
         bt.inserir(7, 7);
         bt.inserir(10, 10);
-//        bt.inserir(17, 17);
-//        bt.inserir(21, 21);
+        bt.inserir(17, 17);
+        bt.inserir(21, 21);
 //        bt.inserir(31, 31);
 //        bt.inserir(25, 25);
 //        bt.inserir(19, 19);
