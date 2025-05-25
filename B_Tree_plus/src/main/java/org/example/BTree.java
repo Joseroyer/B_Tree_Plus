@@ -86,6 +86,7 @@ public class BTree {
                 folha.getAnt().setProx(cx1);
             if (folha.getProx() != null)
                 folha.getProx().setAnt(cx2);
+
         }
 
         if (folha == pai) {
@@ -153,20 +154,19 @@ public class BTree {
             folha = folha.getProx();
         }
     }
-    public void in_ordem()
-    {
+
+    public void in_ordem() {
         System.out.println("## Exibir In-Ordem##");
         in_ordem(raiz);
     }
 
-    private void in_ordem(No raiz)
-    {
+    private void in_ordem(No raiz) {
         if (raiz != null)
         {
             for(int i=0; i<raiz.getTl(); i++)
             {
                 in_ordem(raiz.getvLig(i));
-                System.out.print(raiz.getvInfo(i));
+                System.out.print("\t"+raiz.getvInfo(i));
             }
             in_ordem(raiz.getvLig(raiz.getTl()));
         }
