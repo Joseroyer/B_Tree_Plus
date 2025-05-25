@@ -36,14 +36,6 @@ public class BTree {
         if (isFolha) {
             valorCalc = (int) Math.ceil((No.n - 1) / 2.0);
 
-            for (int i = 0; i < valorCalc; i++) {
-                cx1.setvInfo(i, folha.getvInfo(i));
-                cx1.setvPos(i, folha.getvPos(i));
-                cx1.setvLig(i, folha.getvLig(i));
-                cx1.setTl(cx1.getTl() + 1);
-            }
-            cx1.setvLig(valorCalc, folha.getvLig(valorCalc));
-
             for (int i = valorCalc; i < folha.getTl(); i++) {
                 cx2.setvInfo(i - valorCalc, folha.getvInfo(i));
                 cx2.setvPos(i - valorCalc, folha.getvPos(i));
@@ -55,8 +47,18 @@ public class BTree {
             valorCalc = (int) Math.ceil((No.n / 2.0) - 1);
 
         }
+        for (int i = 0; i < valorCalc; i++) {
+            cx1.setvInfo(i, folha.getvInfo(i));
+            cx1.setvPos(i, folha.getvPos(i));
+            cx1.setvLig(i, folha.getvLig(i));
+            cx1.setTl(cx1.getTl() + 1);
+        }
+        cx1.setvLig(valorCalc, folha.getvLig(valorCalc));
 
         //Ligar as folhas com Cx1 e Cx2
+
+
+
         if (folha == pai) {
             folha.setvInfo(0, folha.getvInfo(valorCalc));
             folha.setvPos(0, folha.getvPos(valorCalc));
