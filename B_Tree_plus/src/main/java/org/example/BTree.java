@@ -42,7 +42,7 @@ public class BTree {
         int valorCalc = 0;
 
         if (isFolha) {
-            valorCalc = (int) Math.ceil((No.n - 1) / 2.0);
+            valorCalc = (int) Math.round((No.n - 1) / 2.0);
 
             for (int i = valorCalc; i < No.n; i++) {
                 cx2.setvInfo(i - valorCalc, folha.getvInfo(i));
@@ -53,7 +53,7 @@ public class BTree {
             cx2.setvLig(No.n - valorCalc, folha.getvLig(No.n));
 
         } else {
-            valorCalc = (int) Math.ceil((No.n / 2.0) - 1);
+            valorCalc = (int) Math.round(No.n / 2.0) - 1;
 
             for (int i = valorCalc + 1; i < No.n; i++) {
                 cx2.setvInfo(i - (valorCalc + 1), folha.getvInfo(i));

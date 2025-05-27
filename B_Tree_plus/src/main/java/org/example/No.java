@@ -1,7 +1,7 @@
 package org.example;
 
 public class No {
-    public static final int n = 4;
+    public static final int n = 5;
     private int[] vInfo;
     private int[] vPos;
     private No[] vLig;
@@ -33,6 +33,7 @@ public class No {
     }
 
     public void remanejar(int pos) {
+
         vLig[tl + 1] = vLig[tl];
         for (int i = tl; i > pos; i--) {
             vInfo[i] = vInfo[i - 1];
