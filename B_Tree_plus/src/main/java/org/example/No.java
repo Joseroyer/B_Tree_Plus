@@ -3,7 +3,6 @@ package org.example;
 public class No {
     public static final int n = 5;
     private int[] vInfo;
-    private int[] vPos;
     private No[] vLig;
     private No ant, prox;
     private int tl;
@@ -11,17 +10,15 @@ public class No {
 
     public No() {
         this.vInfo = new int[n];
-        this.vPos = new int[n];
         this.vLig = new No[n + 1];
         this.tl = 0;
         this.ant = null;
         this.prox = null;
     }
 
-    public No(int info, int posArq) {
+    public No(int info) {
         this();
         vInfo[0] = info;
-        vPos[0] = posArq;
         tl = 1;
     }
 
@@ -33,11 +30,9 @@ public class No {
     }
 
     public void remanejar(int pos) {
-
         vLig[tl + 1] = vLig[tl];
         for (int i = tl; i > pos; i--) {
             vInfo[i] = vInfo[i - 1];
-            vPos[i] = vPos[i - 1];
             vLig[i] = vLig[i - 1];
         }
     }
@@ -50,13 +45,13 @@ public class No {
         vInfo[p] = info;
     }
 
-    public int getvPos(int p) {
-        return vPos[p];
-    }
+//    public int getvPos(int p) {
+//        return vPos[p];
+//    }
 
-    public void setvPos(int p, int posArq) {
-        vPos[p] = posArq;
-    }
+//    public void setvPos(int p, int posArq) {
+//        vPos[p] = posArq;
+//    }
 
     public No getvLig(int p) {
         return vLig[p];
