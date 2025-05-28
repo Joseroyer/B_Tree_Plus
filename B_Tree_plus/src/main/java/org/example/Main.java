@@ -7,18 +7,18 @@ public class Main {
         BTree bt = new BTree();
 
 //        exemplo de Aula
-//        bt.inserir(1);
-//        bt.inserir(4);
-//        bt.inserir(7);
-//        bt.inserir(10);
-//        bt.inserir(17);
-//        bt.inserir(21);
-//        bt.inserir(31);
-//        bt.inserir(25);
-//        bt.inserir(19);
-//        bt.inserir(20);
-//        bt.inserir(28);
-//        bt.inserir(42);
+        bt.inserir(1);
+        bt.inserir(4);
+        bt.inserir(7);
+        bt.inserir(10);
+        bt.inserir(17);
+        bt.inserir(21);
+        bt.inserir(31);
+        bt.inserir(25);
+        bt.inserir(19);
+        bt.inserir(20);
+        bt.inserir(28);
+        bt.inserir(42);
 
 
 //        for (int i=0; i<100000; i++){

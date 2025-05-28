@@ -1,7 +1,7 @@
 package org.example;
 
 public class No {
-    public static final int n = 5;
+    public static final int n = 4;
     private int[] vInfo;
     private No[] vLig;
     private No ant, prox;
