@@ -69,7 +69,7 @@ public class BTree {
             cx1.setAnt(folha.getAnt());
             cx2.setProx(folha.getProx());
         } else {
-            valorCalc = (int) (Math.round (No.n / 2.0) - 1);
+            valorCalc = (int) (Math.round(No.n / 2.0) - 1);
 
             for (int i = 0; i < valorCalc; i++) {
                 cx1.setvInfo(i, folha.getvInfo(i));
@@ -113,7 +113,7 @@ public class BTree {
 
     private No navegarAteFolha(int info) {
         No folha = raiz;
-        int pos ;
+        int pos;
         while (folha.getvLig(0) != null) {
             pos = folha.procurarPosicao(info);
             folha = folha.getvLig(pos);
@@ -130,6 +130,135 @@ public class BTree {
             no = no.getvLig(pos);
         }
         return pai;
+    }
+
+    public void excluir(int info) {
+        No folha = localizarNo(raiz, info);
+        if (folha != null) {
+            int pos = folha.procurarPosicao(info);
+            if (pos < folha.getTl() && folha.getvInfo(pos) == info) {
+                for (int i = pos; i < folha.getTl() - 1; i++) {
+                    folha.setvInfo(i, folha.getvInfo(i + 1));
+                }
+                folha.setTl(folha.getTl() - 1);
+
+                if (folha != raiz && folha.getTl() < Math.round((No.n - 1) / 2.0)) {
+                    No pai = localizarPai(raiz, folha.getvInfo(0));
+                    redistribuiOuConcatena(folha, pai);
+                }
+
+                atualizarChavePai(raiz, folha);
+            }
+        } else
+            System.out.println("Info: " + info);
+
+    }
+
+    private No localizarNo(No no, int info) {
+        while (no != null && no.getvLig(0) != null) {
+            int pos = no.procurarPosicao(info);
+            no = no.getvLig(pos);
+        }
+
+        if (no != null) {
+            for (int i = 0; i < no.getTl(); i++) {
+                if (no.getvInfo(i) == info)
+                    return no;
+            }
+        }
+        return null;
+    }
+
+    private void redistribuiOuConcatena(No folha, No pai) {
+        int posPai = 0;
+
+        while (posPai <= pai.getTl() && pai.getvLig(posPai) != folha)
+            posPai++;
+
+        No irmaoEsq = (posPai > 0) ? pai.getvLig(posPai - 1) : null;
+        No irmaoDir = (posPai < pai.getTl()) ? pai.getvLig(posPai + 1) : null;
+
+        // Redistribuição com irmão esquerdo
+        if (irmaoEsq != null && irmaoEsq.getTl() > Math.ceil((No.n - 1) / 2.0)) {
+            // Desloca para a direita na folha
+            for (int i = folha.getTl(); i > 0; i--) {
+                folha.setvInfo(i, folha.getvInfo(i - 1));
+            }
+            folha.setvInfo(0, irmaoEsq.getvInfo(irmaoEsq.getTl() - 1));
+            folha.setTl(folha.getTl() + 1);
+            irmaoEsq.setTl(irmaoEsq.getTl() - 1);
+            pai.setvInfo(posPai - 1, folha.getvInfo(0));
+        }
+
+        // Redistribuição com irmão direito
+        else if (irmaoDir != null && irmaoDir.getTl() > Math.round((No.n - 1) / 2.0)) {
+            folha.setvInfo(folha.getTl(), irmaoDir.getvInfo(0));
+            folha.setTl(folha.getTl() + 1);
+
+            // Desloca para a esquerda no irmão direito
+            for (int i = 0; i < irmaoDir.getTl() - 1; i++) {
+                irmaoDir.setvInfo(i, irmaoDir.getvInfo(i + 1));
+            }
+            irmaoDir.setTl(irmaoDir.getTl() - 1);
+
+            // Atualiza chave no pai (ATENÇÃO — aqui estava errado antes!)
+            pai.setvInfo(posPai, irmaoDir.getvInfo(0));
+        }
+
+        // Concatenação
+        else if (irmaoEsq != null) {
+            // Concatena folha na esquerda
+            for (int i = 0; i < folha.getTl(); i++) {
+                irmaoEsq.setvInfo(irmaoEsq.getTl() + i, folha.getvInfo(i));
+            }
+            irmaoEsq.setTl(irmaoEsq.getTl() + folha.getTl());
+            irmaoEsq.setProx(folha.getProx());
+            if (folha.getProx() != null)
+                folha.getProx().setAnt(irmaoEsq);
+
+            // Remove ponteiro do pai
+            for (int i = posPai - 1; i < pai.getTl() - 1; i++) {
+                pai.setvInfo(i, pai.getvInfo(i + 1));
+                pai.setvLig(i + 1, pai.getvLig(i + 2));
+            }
+            pai.setTl(pai.getTl() - 1);
+
+            if (pai == raiz && pai.getTl() == 0)
+                raiz = irmaoEsq;
+        } else if (irmaoDir != null) {
+            for (int i = 0; i < irmaoDir.getTl(); i++) {
+                folha.setvInfo(folha.getTl() + i, irmaoDir.getvInfo(i));
+            }
+            folha.setTl(folha.getTl() + irmaoDir.getTl());
+            folha.setProx(irmaoDir.getProx());
+            if (irmaoDir.getProx() != null)
+                irmaoDir.getProx().setAnt(folha);
+
+            // Remove ponteiro e chave do pai
+            for (int i = posPai; i < pai.getTl() - 1; i++) {
+                pai.setvInfo(i, pai.getvInfo(i + 1));
+                pai.setvLig(i + 1, pai.getvLig(i + 2));
+            }
+            pai.setTl(pai.getTl() - 1);
+
+            // Se o pai virou raiz vazia
+            if (pai == raiz && pai.getTl() == 0)
+                raiz = folha;
+        }
+    }
+
+    private void atualizarChavePai(No no, No folha) {
+        boolean flag = true;
+        for (int i = 0; i <= no.getTl() && flag; i++) {
+            if (no.getvLig(i) == folha) {
+                if (i > 0) {
+                    no.setvInfo(i - 1, folha.getvInfo(0));
+                }
+                flag = false;
+            } else {
+                atualizarChavePai(no.getvLig(i), folha);
+            }
+        }
     }
 
     public void exibirFolha() {

@@ -37,6 +37,21 @@ public class No {
         }
     }
 
+    public int buscarPosicaoExata(int info) {
+        for (int i = 0; i < getTl(); i++) {
+            if (vInfo[i] == info) return i;
+        }
+        return -1;
+    }
+
+    public void remanejarExclusao(int pos) {
+        for (int i = pos; i < tl - 1; i++) {
+            vInfo[i] = vInfo[i + 1];
+            vLig[i] = vLig[i + 1];
+        }
+        vLig[tl - 1] = vLig[tl];
+    }
+
     public int getvInfo(int p) {
         return vInfo[p];
     }
@@ -45,13 +60,6 @@ public class No {
         vInfo[p] = info;
     }
 
-//    public int getvPos(int p) {
-//        return vPos[p];
-//    }
-
-//    public void setvPos(int p, int posArq) {
-//        vPos[p] = posArq;
-//    }
 
     public No getvLig(int p) {
         return vLig[p];
